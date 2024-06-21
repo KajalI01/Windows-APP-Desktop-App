@@ -1,11 +1,43 @@
-Public Class ViewForm
-    Private currentIndex As Integer = 0
+Public Class ViewSubmissionsForm
+    Private submissions As List(Of String) ' This should ideally be a more complex type
+    Private currentIndex As Integer
 
-    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-        ' Code to fetch the next submission
+    Public Sub New(submissionList As List(Of String))
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        Me.submissions = submissionList
+        Me.currentIndex = 0
+        DisplayCurrentSubmission()
+    End Sub
+
+    Private Sub DisplayCurrentSubmission()
+        If submissions IsNot Nothing AndAlso submissions.Count > 0 Then
+            lblSubmissionData.Text = submissions(currentIndex)
+        Else
+            lblSubmissionData.Text = "No submissions available."
+        End If
     End Sub
 
     Private Sub btnPrevious_Click(sender As Object, e As EventArgs) Handles btnPrevious.Click
-        ' Code to fetch the previous submission
+        If submissions IsNot Nothing AndAlso submissions.Count > 0 Then
+            currentIndex -= 1
+            If currentIndex < 0 Then
+                currentIndex = submissions.Count - 1
+            End If
+            DisplayCurrentSubmission()
+        End If
+    End Sub
+
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        If submissions IsNot Nothing AndAlso submissions.Count > 0 Then
+            currentIndex += 1
+            If currentIndex >= submissions.Count Then
+                currentIndex = 0
+            End If
+            DisplayCurrentSubmission()
+        End If
     End Sub
 End Class
+
