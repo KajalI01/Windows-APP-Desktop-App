@@ -1,0 +1,9 @@
+Public Class CreateForm
+    Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+        ' Code to submit form data to the backend
+    End Sub
+
+    Private Sub btnStartStopwatch_Click(sender As Object, e As EventArgs) Handles btnStartStopwatch.Click
+        ' Code to start/stop the stopwatch
+    End Sub
+End Class
