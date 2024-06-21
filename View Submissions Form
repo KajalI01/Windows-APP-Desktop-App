@@ -1,0 +1,11 @@
+Public Class ViewForm
+    Private currentIndex As Integer = 0
+
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        ' Code to fetch the next submission
+    End Sub
+
+    Private Sub btnPrevious_Click(sender As Object, e As EventArgs) Handles btnPrevious.Click
+        ' Code to fetch the previous submission
+    End Sub
+End Class
