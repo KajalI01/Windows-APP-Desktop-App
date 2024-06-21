@@ -1,9 +1,45 @@
-Public Class CreateForm
-    Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
-        ' Code to submit form data to the backend
+Public Class CreateSubmissionForm
+    Private stopwatchRunning As Boolean = False
+    Private stopwatchStartTime As DateTime
+    Private stopwatchElapsed As TimeSpan = TimeSpan.Zero
+
+    Private Sub btnStopwatch_Click(sender As Object, e As EventArgs) Handles btnStopwatch.Click
+        If stopwatchRunning Then
+            ' Pause the stopwatch
+            stopwatchElapsed += DateTime.Now - stopwatchStartTime
+            btnStopwatch.Text = "Start"
+            stopwatchRunning = False
+            Timer1.Stop()
+        Else
+            ' Start or resume the stopwatch
+            stopwatchStartTime = DateTime.Now
+            btnStopwatch.Text = "Stop"
+            stopwatchRunning = True
+            Timer1.Start()
+        End If
     End Sub
 
-    Private Sub btnStartStopwatch_Click(sender As Object, e As EventArgs) Handles btnStartStopwatch.Click
-        ' Code to start/stop the stopwatch
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        If stopwatchRunning Then
+            lblStopwatch.Text = (stopwatchElapsed + (DateTime.Now - stopwatchStartTime)).ToString("hh\:mm\:ss")
+        End If
+    End Sub
+
+    Private Sub CreateSubmissionForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Timer1.Interval = 1000 ' Update every second
+    End Sub
+
+    Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+        ' Handle form submission logic
+        Dim submissionData As String = String.Format("Name: {0}, Email: {1}, Phone: {2}, GitHub: {3}, Time: {4}",
+                                                     txtName.Text, txtEmail.Text, txtPhone.Text, txtGithub.Text, lblStopwatch.Text)
+        MessageBox.Show("Submission Received: " & submissionData)
+    End Sub
+
+    ' Handle keyboard shortcut for form submission
+    Private Sub CreateSubmissionForm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.S Then
+            btnSubmit.PerformClick()
+        End If
     End Sub
 End Class
